@@ -1,0 +1,96 @@
+==============Manual==============
+ CROOK COUNTY FOOTBALL PLAY MAKER
+==================================
+           VERSION 2.0
+__________________________________
+To run the program right click on 
+FootballPlayMaker.jar and select
+run as... Java Program. When running
+the program this way the template may
+not load. To fix this re-run the 
+program by double clicking on the 
+program.
+__________________________________
+TEMPLATES
+When the program is opened the file
+template.roc is opened. If you would
+like to change this template then save
+a new file as template.roc and that
+will be the file that is opened when
+the program is initally opened.
+__________________________________
+MENU BAR
+Under the file menu at the top left of
+the screen there are options to open,
+save, save as, export, and exit.*
+
+*Please note for all file saves and loads
+the files must be of the .roc type.
+
+OPEN: open will bring up a prompt and
+allow you to select and open a file.
+
+SAVE: will instantly save the file as
+the play name (which can be seen in 
+the title bar and changed under options)
+
+SAVE AS: will allow you to save a file
+as whatever you would like.
+
+EXPORT: When you click a file format to
+export a prompt will open up just like
+the save propmt except it will start in 
+the export directory.
+
+Under the Options bar there is Name Play
+and preferences.
+
+NAME PLAY: this will allow you to change
+the play's name which is how the export
+and save work.
+
+PREFERENCES: this allows you to change
+some of the object's default (on creation) 
+properties.
+_________________________________
+TOOL BAR
+To the righthand side of the screen there
+are a column of buttons. Each of these buttons
+has a tool tip that appears at the bottom right
+corner of the screen and it will give exact
+directions.
+
+Selection Tool: use this tool to select pieces
+already placed. Use the delete key to delete 
+and either press enter, double click or right click to 
+open a properties window for that piece*.
+Also, when a piece is selected use page_up
+move that piece to the front so that it is 
+drawn over other pieces. and use page_down 
+so that it is drawn last and under other 
+pieces.
+
+*NOTE: this only works for Zones, players, 
+and text boxes.
+
+***I am not adding the buttons because the 
+information is in the tooltip***
+
+Add Text: when adding a text enter the
+text you want to add in the field below the 
+add text button. Then, click on the field 
+where you want that text to appear
+
+_________________________________
+CHANGE LOG
+
+--------------2.0----------------
+1. Default properties are now global and in a 
+.config file instead of unique to each file.
+2. The button for lines has been combined into
+one drop box to lessen the number of options
+and to clean the toolbar up.
+3. Field pieces now scale to size and position.
+4. There are now right click popup menus for the 
+same objects that had properties boxes.
+5. Players can now have text added to them.
