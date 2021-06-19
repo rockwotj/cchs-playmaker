@@ -1,11 +1,6 @@
-load(":warp.bzl", "warp_pkg")
+load(":warp.bzl", "self_contained_jar")
 
-warp_pkg(
-    name = "playmaker_macos",
-    arch = "macos",
-    inputs = [
-        "//java/com/github/rockwotj/playmaker:playmaker_deploy.jar",
-    ],
-    runner = "mac_runner.sh",
-    out = "playmaker-macos.bin",
+self_contained_jar(
+    name = "playmaker",
+    deploy_jar = "//java/com/github/rockwotj/playmaker:playmaker_deploy.jar",
 )

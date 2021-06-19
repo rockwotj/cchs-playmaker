@@ -1,10 +1,15 @@
 load("@bazel_skylib//rules:native_binary.bzl", "native_binary")
 
 java_binary(
-  name = "WarpPacker",
-  main_class = "com.github.rockwotj.tooling.WarpPacker",
+  name = "WarpJrePacker",
+  main_class = "com.github.rockwotj.tooling.WarpJrePacker",
   srcs = glob(["*.java"]),
-  data = [":warp"],
+  data = [
+      ":warp",
+      "@windows_jre//:files",
+      "@mac_jre//:files",
+      "mac_runner.sh",
+  ],
   visibility = ["//visibility:public"],
   deps = [
       "@maven//:com_beust_jcommander",
