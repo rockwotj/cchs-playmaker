@@ -1,29 +1,11 @@
-load("@bazel_skylib//rules:native_binary.bzl", "native_binary")
-load("@bazel_skylib//rules:run_binary.bzl", "run_binary")
+load(":warp.bzl", "warp_pkg")
 
-
-native_binary(
-    name = "warp",
-    src = select({
-      "//pkg/platforms:windows_x86_64": "@mac_warp//file",
-      "//pkg/platforms:osx_x86_64": "@mac_warp//file",
-    }),
-    out = "warp",
+warp_pkg(
+    name = "playmaker_macos",
+    arch = "macos",
+    inputs = [
+        "//java/com/github/rockwotj/playmaker:playmaker_deploy.jar",
+    ],
+    runner = "mac_runner.sh",
+    out = "playmaker-macos.bin",
 )
-
-run_binary(
-    name = "mac_pkg",
-    srcs = ["//pkg/mac", "//pkg/mac:run.sh"],
-    args = [
-        "--arch", "macos-x64",
-        "--input_dir", "$(location //pkg/mac:run.sh)/..",
-        "--exec", "run.sh",
-        "--output", "$(location playmaker.bin)"
-        ],
-    outs = ["playmaker.bin"],
-    tool = ":warp",
-)
-
-
-
-

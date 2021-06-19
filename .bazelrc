@@ -1,0 +1,2 @@
+build --strict_java_deps=error
+test --strict_java_deps=error
