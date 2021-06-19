@@ -1,5 +1,6 @@
 package com.github.rockwotj.playmaker.fieldpieces;
 
+import com.github.rockwotj.playmaker.Main;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
@@ -7,7 +8,6 @@ import java.awt.Rectangle;
 import java.awt.Stroke;
 import java.awt.font.TextLayout;
 import java.awt.geom.Point2D;
-import com.github.rockwotj.playmaker.Main;
 
 public class TextBox extends FieldPieces {
   private Font font;

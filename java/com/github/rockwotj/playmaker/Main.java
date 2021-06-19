@@ -1,5 +1,6 @@
 package com.github.rockwotj.playmaker;
 
+import com.github.rockwotj.playmaker.fieldpieces.DrawingField;
 import java.awt.Color;
 import java.awt.Image;
 import java.awt.event.ComponentEvent;
@@ -14,7 +15,6 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-import com.github.rockwotj.playmaker.fieldpieces.DrawingField;
 
 public class Main {
   public static int numYards;

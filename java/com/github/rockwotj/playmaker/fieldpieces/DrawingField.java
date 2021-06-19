@@ -1,5 +1,7 @@
 package com.github.rockwotj.playmaker.fieldpieces;
 
+import com.github.rockwotj.playmaker.LoadSaveHandler;
+import com.github.rockwotj.playmaker.Main;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -7,8 +9,6 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import javax.swing.JComponent;
 import javax.swing.JOptionPane;
-import com.github.rockwotj.playmaker.LoadSaveHandler;
-import com.github.rockwotj.playmaker.Main;
 
 public class DrawingField extends JComponent {
   private int width;

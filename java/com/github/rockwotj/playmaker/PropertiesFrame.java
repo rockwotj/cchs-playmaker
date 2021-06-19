@@ -1,5 +1,9 @@
 package com.github.rockwotj.playmaker;
 
+import com.github.rockwotj.playmaker.fieldpieces.DrawingField;
+import com.github.rockwotj.playmaker.fieldpieces.Player;
+import com.github.rockwotj.playmaker.fieldpieces.TextBox;
+import com.github.rockwotj.playmaker.fieldpieces.Zone;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Graphics2D;
@@ -19,10 +23,6 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
-import com.github.rockwotj.playmaker.fieldpieces.DrawingField;
-import com.github.rockwotj.playmaker.fieldpieces.Player;
-import com.github.rockwotj.playmaker.fieldpieces.TextBox;
-import com.github.rockwotj.playmaker.fieldpieces.Zone;
 
 public class PropertiesFrame {
   private static JFrame edit;

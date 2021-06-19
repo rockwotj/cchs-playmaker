@@ -1,11 +1,11 @@
 package com.github.rockwotj.playmaker;
 
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import com.github.rockwotj.playmaker.fieldpieces.DrawingField;
 import com.github.rockwotj.playmaker.fieldpieces.Player;
 import com.github.rockwotj.playmaker.fieldpieces.TextBox;
 import com.github.rockwotj.playmaker.fieldpieces.Zone;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
 public class FieldKeyHandler implements KeyListener {
   private DrawingField field;

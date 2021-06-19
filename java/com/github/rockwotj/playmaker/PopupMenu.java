@@ -1,15 +1,15 @@
 package com.github.rockwotj.playmaker;
 
+import com.github.rockwotj.playmaker.fieldpieces.DrawingField;
+import com.github.rockwotj.playmaker.fieldpieces.Player;
+import com.github.rockwotj.playmaker.fieldpieces.TextBox;
+import com.github.rockwotj.playmaker.fieldpieces.Zone;
 import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
-import com.github.rockwotj.playmaker.fieldpieces.DrawingField;
-import com.github.rockwotj.playmaker.fieldpieces.Player;
-import com.github.rockwotj.playmaker.fieldpieces.TextBox;
-import com.github.rockwotj.playmaker.fieldpieces.Zone;
 
 public class PopupMenu {
   private static DrawingField field;

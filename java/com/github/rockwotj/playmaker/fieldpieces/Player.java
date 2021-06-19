@@ -1,5 +1,6 @@
 package com.github.rockwotj.playmaker.fieldpieces;
 
+import com.github.rockwotj.playmaker.Main;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Font;
@@ -8,7 +9,6 @@ import java.awt.Graphics2D;
 import java.awt.Stroke;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Rectangle2D;
-import com.github.rockwotj.playmaker.Main;
 
 public class Player extends FieldPieces {
   private int xCenter;

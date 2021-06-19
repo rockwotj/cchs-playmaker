@@ -1,8 +1,5 @@
 package com.github.rockwotj.playmaker;
 
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import javax.swing.SwingUtilities;
 import com.github.rockwotj.playmaker.fieldpieces.Arrowhead;
 import com.github.rockwotj.playmaker.fieldpieces.Blockhead;
 import com.github.rockwotj.playmaker.fieldpieces.CurvedLine;
@@ -13,6 +10,9 @@ import com.github.rockwotj.playmaker.fieldpieces.Player;
 import com.github.rockwotj.playmaker.fieldpieces.SolidLine;
 import com.github.rockwotj.playmaker.fieldpieces.TextBox;
 import com.github.rockwotj.playmaker.fieldpieces.Zone;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import javax.swing.SwingUtilities;
 
 public class ToolClickHandler implements MouseListener {
   private ToolBar toolBar;

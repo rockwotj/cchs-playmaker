@@ -1,5 +1,16 @@
 package com.github.rockwotj.playmaker;
 
+import com.github.rockwotj.playmaker.fieldpieces.Arrowhead;
+import com.github.rockwotj.playmaker.fieldpieces.Blockhead;
+import com.github.rockwotj.playmaker.fieldpieces.CurvedLine;
+import com.github.rockwotj.playmaker.fieldpieces.DashedLine;
+import com.github.rockwotj.playmaker.fieldpieces.DrawingField;
+import com.github.rockwotj.playmaker.fieldpieces.FieldPieces;
+import com.github.rockwotj.playmaker.fieldpieces.MotionLine;
+import com.github.rockwotj.playmaker.fieldpieces.Player;
+import com.github.rockwotj.playmaker.fieldpieces.SolidLine;
+import com.github.rockwotj.playmaker.fieldpieces.TextBox;
+import com.github.rockwotj.playmaker.fieldpieces.Zone;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
@@ -13,17 +24,6 @@ import javax.swing.JComponent;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
-import com.github.rockwotj.playmaker.fieldpieces.Arrowhead;
-import com.github.rockwotj.playmaker.fieldpieces.Blockhead;
-import com.github.rockwotj.playmaker.fieldpieces.CurvedLine;
-import com.github.rockwotj.playmaker.fieldpieces.DashedLine;
-import com.github.rockwotj.playmaker.fieldpieces.DrawingField;
-import com.github.rockwotj.playmaker.fieldpieces.FieldPieces;
-import com.github.rockwotj.playmaker.fieldpieces.MotionLine;
-import com.github.rockwotj.playmaker.fieldpieces.Player;
-import com.github.rockwotj.playmaker.fieldpieces.SolidLine;
-import com.github.rockwotj.playmaker.fieldpieces.TextBox;
-import com.github.rockwotj.playmaker.fieldpieces.Zone;
 
 public class LoadSaveHandler {
 

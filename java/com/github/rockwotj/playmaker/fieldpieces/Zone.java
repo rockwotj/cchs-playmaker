@@ -1,11 +1,11 @@
 package com.github.rockwotj.playmaker.fieldpieces;
 
+import com.github.rockwotj.playmaker.Main;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
-import com.github.rockwotj.playmaker.Main;
 
 public class Zone extends FieldPieces {
   private Color fillColor;

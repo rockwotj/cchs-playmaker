@@ -1,10 +1,10 @@
 package com.github.rockwotj.playmaker;
 
+import com.github.rockwotj.playmaker.fieldpieces.CurvedLine;
+import com.github.rockwotj.playmaker.fieldpieces.DrawingField;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
 import javax.swing.SwingUtilities;
-import com.github.rockwotj.playmaker.fieldpieces.CurvedLine;
-import com.github.rockwotj.playmaker.fieldpieces.DrawingField;
 
 public class SelectionMotionHandler implements MouseMotionListener {
   private ToolBar toolBar;

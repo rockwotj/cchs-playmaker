@@ -1,5 +1,6 @@
 package com.github.rockwotj.playmaker;
 
+import com.github.rockwotj.playmaker.fieldpieces.DrawingField;
 import java.awt.BorderLayout;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
@@ -14,7 +15,6 @@ import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.border.TitledBorder;
-import com.github.rockwotj.playmaker.fieldpieces.DrawingField;
 
 public class ToolBar extends JPanel {
   public final JButton player;
