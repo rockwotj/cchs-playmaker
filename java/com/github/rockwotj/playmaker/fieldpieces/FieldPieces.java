@@ -36,12 +36,3 @@ public abstract class FieldPieces {
   public abstract void moveTo(
       int paramInt1, int paramInt2, double paramDouble1, double paramDouble2);
 }
-
-/*
- * Location: D:\Software\Mine\CCHS-Playmaker-master\CCHS-Playmaker-master\2.0\
- * FootballPlayMaker.jar
- *
- * Qualified Name: GUI.FieldPieces
- *
- * JD-Core Version: 0.7.0.1
- */

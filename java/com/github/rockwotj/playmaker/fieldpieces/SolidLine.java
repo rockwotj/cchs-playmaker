@@ -35,11 +35,3 @@ public class SolidLine extends Line {
   }
 }
 
-/*
- * Location: D:\Software\Mine\CCHS-Playmaker-master\CCHS-Playmaker-master\2.0\
- * FootballPlayMaker.jar
- *
- * Qualified Name: GUI.SolidLine
- *
- * JD-Core Version: 0.7.0.1
- */

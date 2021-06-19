@@ -4,50 +4,39 @@ import com.github.rockwotj.playmaker.fieldpieces.DrawingField;
 import com.github.rockwotj.playmaker.fieldpieces.Player;
 import com.github.rockwotj.playmaker.fieldpieces.TextBox;
 import com.github.rockwotj.playmaker.fieldpieces.Zone;
+import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 
-public class FieldKeyHandler implements KeyListener {
-  private DrawingField field;
-  private ToolBar toolBar;
+public class FieldKeyHandler extends KeyAdapter {
+  private final DrawingField field;
 
-  public FieldKeyHandler(DrawingField field, ToolBar optionToolBar) {
+  public FieldKeyHandler(DrawingField field) {
     this.field = field;
-    this.toolBar = optionToolBar;
   }
 
-  public void keyPressed(KeyEvent arg0) {
-    int keyCode = arg0.getKeyCode();
-    if ((keyCode == 127) && (!this.toolBar.selection.isEnabled())) {
-      this.field.removeSelected();
-    }
-    if ((keyCode == 10) && (!this.toolBar.selection.isEnabled())) {
-      if ((this.field.selected instanceof Player)) {
-        PropertiesFrame.playerPropertyFrame((Player) this.field.selected);
-      } else if ((this.field.selected instanceof Zone)) {
-        PropertiesFrame.zonePropertyFrame((Zone) this.field.selected);
-      } else if ((this.field.selected instanceof TextBox)) {
-        PropertiesFrame.textBoxPropertyFrame((TextBox) this.field.selected);
-      }
-    }
-    if ((keyCode == 33) && (!this.toolBar.selection.isEnabled())) {
-      this.field.bringToFront();
-    }
-    if ((keyCode == 34) && (!this.toolBar.selection.isEnabled())) {
-      this.field.sendToBack();
+  public void keyPressed(KeyEvent event) {
+    switch (event.getKeyCode()) {
+      case KeyEvent.VK_DELETE:
+      case KeyEvent.VK_BACK_SPACE:
+        field.removeSelected();
+        break;
+      case KeyEvent.VK_ENTER:
+        {
+          if (this.field.selected instanceof Player) {
+            PropertiesFrame.playerPropertyFrame((Player) field.selected);
+          } else if (this.field.selected instanceof Zone) {
+            PropertiesFrame.zonePropertyFrame((Zone) field.selected);
+          } else if (field.selected instanceof TextBox) {
+            PropertiesFrame.textBoxPropertyFrame((TextBox) field.selected);
+          }
+          break;
+        }
+      case KeyEvent.VK_PAGE_UP:
+        field.bringToFront();
+        break;
+      case KeyEvent.VK_PAGE_DOWN:
+        field.sendToBack();
+        break;
     }
   }
-
-  public void keyReleased(KeyEvent arg0) {}
-
-  public void keyTyped(KeyEvent arg0) {}
 }
-
-/*
- * Location: D:\Software\Mine\CCHS-Playmaker-master\CCHS-Playmaker-master\2.0\
- * FootballPlayMaker.jar
- *
- * Qualified Name: GUI.FieldKeyHandler
- *
- * JD-Core Version: 0.7.0.1
- */

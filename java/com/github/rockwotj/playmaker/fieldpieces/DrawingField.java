@@ -313,7 +313,6 @@ public class DrawingField extends JComponent {
     try {
       this.pieces = LoadSaveHandler.loadDefault((Graphics2D) getGraphics());
     } catch (FileNotFoundException e) {
-      JOptionPane.showMessageDialog(this, "Error: No template found!", "Error", 0);
     }
     resizePieces();
   }

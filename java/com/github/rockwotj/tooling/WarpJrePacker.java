@@ -5,6 +5,7 @@ import static com.google.common.base.Verify.verify;
 import com.beust.jcommander.JCommander;
 import com.beust.jcommander.Parameter;
 import com.beust.jcommander.converters.FileConverter;
+import com.beust.jcommander.converters.PathConverter;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
@@ -15,10 +16,12 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 public class WarpJrePacker {
-  @SuppressWarnings({"FieldMayBeFinal"})
+  @SuppressWarnings({"FieldMayBeFinal", "MismatchedQueryAndUpdateOfCollection"})
   static class Args {
     @Parameter(names = "--arch", converter = Architecture.OptionConverter.class, required = true)
     private Architecture arch = null;
@@ -26,8 +29,14 @@ public class WarpJrePacker {
     @Parameter(names = "--output", converter = FileConverter.class, required = true)
     private File output = null;
 
-    @Parameter(names = "--jar", converter = FileConverter.class)
-    private File deployJar = null;
+    @Parameter(names = "--jar", converter = PathConverter.class)
+    private Path deployJar = null;
+
+    @Parameter(names = "--bundle_jre")
+    private Boolean bundleJre = false;
+
+    @Parameter(converter = PathConverter.class)
+    private List<Path> additionalFiles = new ArrayList<>();
   }
 
   private static final ImmutableSet<String> BAZEL_FILENAMES =
@@ -59,25 +68,33 @@ public class WarpJrePacker {
     Path inputDir = Files.createTempDirectory("warp-inputs");
 
     // Copy the deploy jar over
-    Files.copy(
-        args.deployJar.toPath(),
-        inputDir.resolve("program.jar"),
-        StandardCopyOption.COPY_ATTRIBUTES);
+    Files.copy(args.deployJar, inputDir.resolve("program.jar"), StandardCopyOption.COPY_ATTRIBUTES);
 
     // Copy our runner script
     String runnerFile = "runner-" + UUID.randomUUID().toString();
     Files.copy(
         runnerScript().toPath(), inputDir.resolve(runnerFile), StandardCopyOption.COPY_ATTRIBUTES);
 
-    // Copy the JRE
-    Path javaHome = jreHome().toPath();
-    for (Path src : MoreFiles.fileTraverser().breadthFirst(javaHome)) {
-      if (!src.toFile().isFile()) continue;
-      String basename = src.getFileName().toString();
-      if (BAZEL_FILENAMES.contains(basename)) continue;
-      Path target = inputDir.resolve("java-home").resolve(javaHome.relativize(src));
+    Path cwd = Paths.get(System.getProperty("user.dir"));
+
+    // Copy over additional install files
+    for (Path additionalFile : args.additionalFiles) {
+      Path target = inputDir.resolve(additionalFile);
       Files.createDirectories(target.getParent());
-      Files.copy(src, target, StandardCopyOption.COPY_ATTRIBUTES);
+      Files.copy(additionalFile, target, StandardCopyOption.COPY_ATTRIBUTES);
+    }
+
+    if (args.bundleJre) {
+      // Copy the JRE
+      Path javaHome = jreHome().toPath();
+      for (Path src : MoreFiles.fileTraverser().breadthFirst(javaHome)) {
+        if (!src.toFile().isFile()) continue;
+        String basename = src.getFileName().toString();
+        if (BAZEL_FILENAMES.contains(basename)) continue;
+        Path target = inputDir.resolve("java-home").resolve(javaHome.relativize(src));
+        Files.createDirectories(target.getParent());
+        Files.copy(src, target, StandardCopyOption.COPY_ATTRIBUTES);
+      }
     }
 
     // Pack them up using warp

@@ -1,13 +1,13 @@
 package com.github.rockwotj.playmaker;
 
 import com.github.rockwotj.playmaker.fieldpieces.DrawingField;
+import com.google.common.collect.ImmutableList;
 import java.awt.BorderLayout;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.util.List;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -23,14 +23,12 @@ public class ToolBar extends JPanel {
   public final JButton blockhead;
   public final JButton selection;
   public final JButton zone;
+  public final List<JButton> allButtons;
+
   public final JTextField text;
   public final JTextArea tooltip;
   public final JComboBox<String> lines;
   public final JButton add;
-  public static final int SolidLine = 0;
-  public static final int DottedLine = 1;
-  public static final int MotionLine = 2;
-  public static final int CurvedLine = 3;
   private final DrawingField field;
   private TitledBorder name;
 
@@ -44,7 +42,7 @@ public class ToolBar extends JPanel {
     this.selection = new JButton("Selection Tool");
     this.player = new JButton("Add Player");
     String[] typesOfLines = {"Solid Line", "Dotted Line", "Motion Line", "Curved Line"};
-    this.lines = new JComboBox(typesOfLines);
+    this.lines = new JComboBox<>(typesOfLines);
     JPanel lineBox = new JPanel();
     GridBagLayout layout = new GridBagLayout();
     GridBagConstraints c = new GridBagConstraints();
@@ -64,7 +62,8 @@ public class ToolBar extends JPanel {
     this.tooltip = new JTextArea();
     this.tooltip.setEditable(false);
     this.tooltip.setLineWrap(true);
-    this.tooltip.setFont(new Font("Times New Roman", 0, 14));
+    this.tooltip.setWrapStyleWord(true);
+    this.tooltip.setFont(new Font("Times New Roman", Font.PLAIN, 14));
     this.tooltip.setText("Click a button to start");
     buttons.add(this.selection);
     buttons.add(this.player);
@@ -81,129 +80,56 @@ public class ToolBar extends JPanel {
     add(buttons, "North");
     add(textPanel);
 
-    this.selection.addActionListener(
-        new ActionListener() {
-          public void actionPerformed(ActionEvent arg0) {
-            ToolBar.this.selection.setEnabled(false);
-            ToolBar.this.player.setEnabled(true);
-            ToolBar.this.arrowhead.setEnabled(true);
-            ToolBar.this.misc.setEnabled(true);
-            ToolBar.this.blockhead.setEnabled(true);
-            ToolBar.this.zone.setEnabled(true);
-            ToolBar.this.add.setEnabled(true);
-            ToolBar.this.tooltip.setText(
-                "Click & drag the mouse tomove an object. Right or  double click to edit its    \n"
-                    + "properties. Use page_up \n"
-                    + "and page_down keys to \n"
-                    + "move the piece up and \n"
-                    + "down. Delete key will \n"
-                    + "remove pieces.");
-            field.requestFocusInWindow();
-          }
+    allButtons = ImmutableList.of(selection, player, arrowhead, misc, blockhead, zone, add);
+
+    setButtonAction(
+        selection,
+        () -> {
+          tooltip.setText(
+              "Click & drag the mouse to move an object. "
+                  + "Right or double click to edit its properties. "
+                  + "Use page_up and page_down keys to move the piece up and down. "
+                  + "Delete key will remove pieces.");
+          field.requestFocusInWindow();
         });
-    this.add.addActionListener(
-        new ActionListener() {
-          public void actionPerformed(ActionEvent arg0) {
-            ToolBar.this.selection.setEnabled(true);
-            ToolBar.this.player.setEnabled(true);
-            ToolBar.this.arrowhead.setEnabled(true);
-            ToolBar.this.misc.setEnabled(true);
-            ToolBar.this.blockhead.setEnabled(true);
-            ToolBar.this.zone.setEnabled(true);
-            ToolBar.this.add.setEnabled(false);
-            ToolBar.this.tooltip.setText(
-                "Click & drag the mouse todefine a line. For a curved\n"
-                    + "line after the straight line \n"
-                    + "is defined your next click will define the curveness \n"
-                    + "of the line");
-            field.unhighlightAll();
-          }
-        });
-    this.player.addActionListener(
-        new ActionListener() {
-          public void actionPerformed(ActionEvent arg0) {
-            ToolBar.this.selection.setEnabled(true);
-            ToolBar.this.player.setEnabled(false);
-            ToolBar.this.arrowhead.setEnabled(true);
-            ToolBar.this.misc.setEnabled(true);
-            ToolBar.this.add.setEnabled(true);
-            ToolBar.this.blockhead.setEnabled(true);
-            ToolBar.this.zone.setEnabled(true);
-            ToolBar.this.tooltip.setText("Click to add a player");
-            field.unhighlightAll();
-          }
-        });
-    this.arrowhead.addActionListener(
-        new ActionListener() {
-          public void actionPerformed(ActionEvent arg0) {
-            ToolBar.this.selection.setEnabled(true);
-            ToolBar.this.player.setEnabled(true);
-            ToolBar.this.arrowhead.setEnabled(false);
-            ToolBar.this.misc.setEnabled(true);
-            ToolBar.this.blockhead.setEnabled(true);
-            ToolBar.this.add.setEnabled(true);
-            ToolBar.this.zone.setEnabled(true);
-            ToolBar.this.tooltip.setText("Click & drag the mouse tomake a line with an arrowhead");
-            field.unhighlightAll();
-          }
-        });
-    this.blockhead.addActionListener(
-        new ActionListener() {
-          public void actionPerformed(ActionEvent arg0) {
-            ToolBar.this.selection.setEnabled(true);
-            ToolBar.this.player.setEnabled(true);
-            ToolBar.this.arrowhead.setEnabled(true);
-            ToolBar.this.misc.setEnabled(true);
-            ToolBar.this.blockhead.setEnabled(false);
-            ToolBar.this.zone.setEnabled(true);
-            ToolBar.this.add.setEnabled(true);
-            ToolBar.this.tooltip.setText(
-                "Click & drag the mouse tomake a line that ends in a pancake");
-            field.unhighlightAll();
-          }
-        });
-    this.misc.addActionListener(
-        new ActionListener() {
-          public void actionPerformed(ActionEvent arg0) {
-            ToolBar.this.selection.setEnabled(true);
-            ToolBar.this.player.setEnabled(true);
-            ToolBar.this.arrowhead.setEnabled(true);
-            ToolBar.this.misc.setEnabled(false);
-            ToolBar.this.blockhead.setEnabled(true);
-            ToolBar.this.zone.setEnabled(true);
-            ToolBar.this.add.setEnabled(true);
-            ToolBar.this.tooltip.setText(
-                "Click to create a text-box enter your text in the field above");
-            field.unhighlightAll();
-          }
-        });
-    this.zone.addActionListener(
-        new ActionListener() {
-          public void actionPerformed(ActionEvent arg0) {
-            ToolBar.this.selection.setEnabled(true);
-            ToolBar.this.player.setEnabled(true);
-            ToolBar.this.arrowhead.setEnabled(true);
-            ToolBar.this.misc.setEnabled(true);
-            ToolBar.this.add.setEnabled(true);
-            ToolBar.this.blockhead.setEnabled(true);
-            ToolBar.this.zone.setEnabled(false);
-            ToolBar.this.tooltip.setText("Click & drag to define a \ndefensive zone");
-            field.unhighlightAll();
-          }
-        });
+
+    setButtonAction(
+        add,
+        () -> tooltip.setText(
+            "Click & drag the mouse to define a line. "
+                + "For a curved line after the straight line is defined "
+                + "your next click will define the curveness of the line"));
+
+    setButtonAction(
+        player,
+        () -> tooltip.setText("Click to add a player"));
+    setButtonAction(
+        arrowhead,
+        () -> tooltip.setText("Click & drag the mouse to make a line with an arrowhead"));
+    setButtonAction(
+        blockhead,
+        () -> tooltip.setText("Click & drag the mouse to make a line that ends in a pancake"));
+    setButtonAction(
+        misc,
+        () -> tooltip.setText("Click to create a text-box enter your text in the field above"));
+    setButtonAction(
+        zone,
+        () -> tooltip.setText("Click & drag to define a \ndefensive zone"));
   }
 
   public void setName() {
     this.name = BorderFactory.createTitledBorder(Main.fileName);
     setBorder(this.name);
   }
-}
 
-/*
- * Location: D:\Software\Mine\CCHS-Playmaker-master\CCHS-Playmaker-master\2.0\
- * FootballPlayMaker.jar
- *
- * Qualified Name: GUI.ToolBar
- *
- * JD-Core Version: 0.7.0.1
- */
+  private void setButtonAction(JButton button, Runnable action) {
+    button.addActionListener(
+        arg -> {
+          for (JButton otherButton : allButtons) {
+            otherButton.setEnabled(button != otherButton);
+          }
+          field.unhighlightAll();
+          action.run();
+        });
+  }
+}

@@ -7,8 +7,8 @@ import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 
 public class Arrowhead extends Line {
-  private static double phi = Math.toRadians(35.0D);
-  private static int barb = 8;
+  private static final double PHI = Math.toRadians(35.0D);
+  private static final int BARB = 8;
 
   public Arrowhead(int x, int y, double width, double height) {
     super(x, y, width, height);
@@ -38,10 +38,10 @@ public class Arrowhead extends Line {
     double dy = tip.getY() - tail.getY();
     double dx = tip.getX() - tail.getX();
     double theta = Math.atan2(dy, dx);
-    double rho = theta + phi;
+    double rho = theta + PHI;
     for (int j = 0; j < 2; j++) {
-      double x = tip.getX() - barb * Math.cos(rho);
-      double y = tip.getY() - barb * Math.sin(rho);
+      double x = tip.getX() - BARB * Math.cos(rho);
+      double y = tip.getY() - BARB * Math.sin(rho);
       if (this.highlighted) {
         g2.setColor(Color.white);
         g2.setStroke(new BasicStroke(3.5F));
@@ -50,7 +50,7 @@ public class Arrowhead extends Line {
       g2.setColor(color);
       g2.setStroke(new BasicStroke(2.0F));
       g2.draw(new Line2D.Double(tip.getX(), tip.getY(), x, y));
-      rho = theta - phi;
+      rho = theta - PHI;
     }
   }
 
@@ -59,12 +59,3 @@ public class Arrowhead extends Line {
     return "Arrowhead|" + line.x1 + "|" + line.y1 + "|" + line.x2 + "|" + line.y2;
   }
 }
-
-/*
- * Location: D:\Software\Mine\CCHS-Playmaker-master\CCHS-Playmaker-master\2.0\
- * FootballPlayMaker.jar
- *
- * Qualified Name: GUI.Arrowhead
- *
- * JD-Core Version: 0.7.0.1
- */

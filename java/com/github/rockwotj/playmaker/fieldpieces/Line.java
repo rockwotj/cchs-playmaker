@@ -53,12 +53,3 @@ public abstract class Line extends FieldPieces {
     line.setLine(x1, y1, x2, y2);
   }
 }
-
-/*
- * Location: D:\Software\Mine\CCHS-Playmaker-master\CCHS-Playmaker-master\2.0\
- * FootballPlayMaker.jar
- *
- * Qualified Name: GUI.Line
- *
- * JD-Core Version: 0.7.0.1
- */

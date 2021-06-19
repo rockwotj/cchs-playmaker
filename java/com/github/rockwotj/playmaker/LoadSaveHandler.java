@@ -17,6 +17,8 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Scanner;
 import javax.imageio.ImageIO;
@@ -27,15 +29,21 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 
 public class LoadSaveHandler {
 
+  private static Path baseSaveDirectory() {
+    String installDir = System.getProperty("install.dir");
+    if (installDir == null) {
+      return Paths.get(System.getProperty("user.home"), "playmaker");
+    }
+    return Paths.get(installDir, "SavedData");
+  }
+
   public static ArrayList<FieldPieces> load(Graphics2D g2, DrawingField drawingField)
       throws FileNotFoundException {
-
-    JFileChooser inFileChooser = new JFileChooser("SavedData\\");
-    FileNameExtensionFilter filter =
-        new FileNameExtensionFilter("Playmaker Files", new String[] {"roc"});
+    JFileChooser inFileChooser = new JFileChooser(baseSaveDirectory().toFile());
+    FileNameExtensionFilter filter = new FileNameExtensionFilter("Playmaker Files", "roc");
     inFileChooser.setFileFilter(filter);
     inFileChooser.setAcceptAllFileFilterUsed(false);
-    File inFile = null;
+    File inFile;
     if (inFileChooser.showOpenDialog(null) == 0) {
       inFile = inFileChooser.getSelectedFile();
     } else {
@@ -45,24 +53,20 @@ public class LoadSaveHandler {
   }
 
   public static ArrayList<FieldPieces> loadDefault(Graphics2D g2) throws FileNotFoundException {
-
-    String path = "SavedData\\template.roc";
-    File inFile = new File(path);
-    return loadFile(inFile, g2, null, false);
+    Path path = baseSaveDirectory().resolve("template.roc");
+    return loadFile(path.toFile(), g2, null, false);
   }
 
   public static void save(ArrayList<FieldPieces> pieces, int width, int height) {
 
-    String path = "SavedData\\" + Main.fileName + ".roc";
-    File outFile = new File(path);
-    PrintWriter out = null;
+    Path path = baseSaveDirectory().resolve(Main.fileName + ".roc");
+    PrintWriter out;
     try {
-      out = new PrintWriter(outFile);
+      out = new PrintWriter(path.toFile());
     } catch (FileNotFoundException e) {
-
       return;
     }
-    save(pieces, out, outFile, width, height);
+    save(pieces, out, path.toFile(), width, height);
     out.close();
   }
 
@@ -70,8 +74,7 @@ public class LoadSaveHandler {
 
     String path = "SavedData\\";
     JFileChooser outFileChooser = new JFileChooser(path);
-    FileNameExtensionFilter filter =
-        new FileNameExtensionFilter("Playmaker Files", new String[] {"roc"});
+    FileNameExtensionFilter filter = new FileNameExtensionFilter("Playmaker Files", "roc");
     outFileChooser.setFileFilter(filter);
     outFileChooser.setAcceptAllFileFilterUsed(false);
     PrintWriter out = null;
@@ -103,8 +106,8 @@ public class LoadSaveHandler {
     out.println(Main.numYards);
     out.println(width);
     out.println(height);
-    for (int i = 0; i < pieces.size(); i++) {
-      out.println(((FieldPieces) pieces.get(i)).toString());
+    for (FieldPieces piece : pieces) {
+      out.println(piece.toString());
     }
     JOptionPane.showMessageDialog(null, Main.fileName + " saved!", "Cowboy Play Maker", 1);
   }
@@ -113,7 +116,7 @@ public class LoadSaveHandler {
       File inFile, Graphics2D g2, DrawingField drawingField, boolean showMessage)
       throws FileNotFoundException {
 
-    ArrayList<FieldPieces> piecesInFile = new ArrayList();
+    ArrayList<FieldPieces> piecesInFile = new ArrayList<>();
     Scanner in = new Scanner(inFile);
     StringBuilder builder = new StringBuilder();
     Main.fileName = in.nextLine();
@@ -134,26 +137,37 @@ public class LoadSaveHandler {
       i++;
       String type = builder.toString();
       clearStringBuilder(builder);
-      if (type.equals("Player")) {
-        piecesInFile.add(playerFromString(line, i, builder, width, height));
-      } else if (type.equals("Arrowhead")) {
-        piecesInFile.add(arrowheadFromString(line, i, builder, width, height));
-      } else if (type.equals("Blockhead")) {
-        piecesInFile.add(blockheadFromString(line, i, builder, width, height));
-      } else if (type.equals("CurvedLine")) {
-        piecesInFile.add(curvedLineFromString(line, i, builder, width, height));
-      } else if (type.equals("DashedLine")) {
-        piecesInFile.add(dashedLineFromString(line, i, builder, width, height));
-      } else if (type.equals("MotionLine")) {
-        piecesInFile.add(motionLineFromString(line, i, builder, width, height));
-      } else if (type.equals("SolidLine")) {
-        piecesInFile.add(solidLineFromString(line, i, builder, width, height));
-      } else if (type.equals("TextBox")) {
-        piecesInFile.add(textBoxFromString(line, i, builder, g2, width, height));
-      } else if (type.equals("Zone")) {
-        piecesInFile.add(zoneFromString(line, i, builder, width, height));
-      } else {
-        System.out.println("ERROR!");
+      switch (type) {
+        case "Player":
+          piecesInFile.add(playerFromString(line, i, builder, width, height));
+          break;
+        case "Arrowhead":
+          piecesInFile.add(arrowheadFromString(line, i, builder, width, height));
+          break;
+        case "Blockhead":
+          piecesInFile.add(blockheadFromString(line, i, builder, width, height));
+          break;
+        case "CurvedLine":
+          piecesInFile.add(curvedLineFromString(line, i, builder, width, height));
+          break;
+        case "DashedLine":
+          piecesInFile.add(dashedLineFromString(line, i, builder, width, height));
+          break;
+        case "MotionLine":
+          piecesInFile.add(motionLineFromString(line, i, builder, width, height));
+          break;
+        case "SolidLine":
+          piecesInFile.add(solidLineFromString(line, i, builder, width, height));
+          break;
+        case "TextBox":
+          piecesInFile.add(textBoxFromString(line, i, builder, g2, width, height));
+          break;
+        case "Zone":
+          piecesInFile.add(zoneFromString(line, i, builder, width, height));
+          break;
+        default:
+          System.out.println("ERROR!");
+          break;
       }
     }
     if (showMessage) {
@@ -165,7 +179,6 @@ public class LoadSaveHandler {
   }
 
   private static Color getColorFromString(String line) {
-
     if (line.equals(Color.BLACK.toString())) {
       return Color.BLACK;
     }
@@ -244,7 +257,6 @@ public class LoadSaveHandler {
   }
 
   private static void clearStringBuilder(StringBuilder builder) {
-
     builder.delete(0, builder.length());
   }
 
@@ -590,8 +602,7 @@ public class LoadSaveHandler {
     String path = "exported\\";
     JFileChooser outFileChooser = new JFileChooser(path);
     FileNameExtensionFilter filter =
-        new FileNameExtensionFilter(
-            fileType.toUpperCase() + " Image Files", new String[] {fileType});
+        new FileNameExtensionFilter(fileType.toUpperCase() + " Image Files", fileType);
     outFileChooser.setFileFilter(filter);
     outFileChooser.setAcceptAllFileFilterUsed(false);
     File outFile;
@@ -615,47 +626,4 @@ public class LoadSaveHandler {
     }
     return false;
   }
-
-  public static void saveProperties() {
-
-    String path = "properties.config";
-    File outFile = new File(path);
-    PrintWriter out = null;
-    try {
-      out = new PrintWriter(outFile);
-    } catch (FileNotFoundException e) {
-
-      return;
-    }
-    out.println(Main.defaultFontStyle);
-    out.println(Main.defaultFontSize);
-    out.println(Main.defaultTextColor.toString());
-    out.println(Main.defaultIsCircle);
-    out.println(Main.defaultIsWhite);
-    out.println(Main.defaultZoneColor);
-    out.close();
-  }
-
-  public static void loadProperties() throws FileNotFoundException {
-
-    String path = "properties.config";
-    File inFile = new File(path);
-    Scanner in = new Scanner(inFile);
-    Main.defaultFontStyle = in.nextLine();
-    Main.defaultFontSize = Integer.parseInt(in.nextLine());
-    Main.defaultTextColor = getColorFromString(in.nextLine());
-    Main.defaultIsCircle = Boolean.parseBoolean(in.nextLine());
-    Main.defaultIsWhite = Boolean.parseBoolean(in.nextLine());
-    Main.defaultZoneColor = getColorFromString(in.nextLine());
-    in.close();
-  }
 }
-
-/*
- * Location: D:\Software\Mine\CCHS-Playmaker-master\CCHS-Playmaker-master\2.0\
- * FootballPlayMaker.jar
- *
- * Qualified Name: GUI.LoadSaveHandler
- *
- * JD-Core Version: 0.7.0.1
- */

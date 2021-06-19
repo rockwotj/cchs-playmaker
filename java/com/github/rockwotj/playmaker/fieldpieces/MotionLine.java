@@ -6,7 +6,7 @@ import java.awt.Graphics2D;
 import java.awt.geom.Line2D;
 
 public class MotionLine extends Line {
-  private Line2D.Double tracer;
+  private final Line2D.Double tracer;
 
   public MotionLine(int x, int y, double width, double height) {
     super(x, y, width, height);
@@ -66,12 +66,3 @@ public class MotionLine extends Line {
     return "MotionLine|" + line.x1 + "|" + line.y1 + "|" + line.x2 + "|" + line.y2;
   }
 }
-
-/*
- * Location: D:\Software\Mine\CCHS-Playmaker-master\CCHS-Playmaker-master\2.0\
- * FootballPlayMaker.jar
- *
- * Qualified Name: GUI.MotionLine
- *
- * JD-Core Version: 0.7.0.1
- */

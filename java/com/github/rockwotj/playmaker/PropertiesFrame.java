@@ -9,10 +9,9 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.IOException;
 import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
@@ -46,14 +45,14 @@ public class PropertiesFrame {
     JLabel colorLabel = new JLabel(" Color");
     content.add(colorLabel);
     String[] shapes = {"Circle", "Square"};
-    final JComboBox<String> isSquare = new JComboBox(shapes);
+    final JComboBox<String> isSquare = new JComboBox<>(shapes);
     if (selected.isCircle()) {
       isSquare.setSelectedIndex(0);
     } else {
       isSquare.setSelectedIndex(1);
     }
     String[] colors = {"White", "Black"};
-    final JComboBox<String> isWhite = new JComboBox(colors);
+    final JComboBox<String> isWhite = new JComboBox<>(colors);
     if (selected.isWhite()) {
       isWhite.setSelectedIndex(0);
     } else {
@@ -76,16 +75,14 @@ public class PropertiesFrame {
     edit.setSize(280, 150);
     edit.setVisible(true);
     okay.addActionListener(
-        new ActionListener() {
-          public void actionPerformed(ActionEvent e) {
-            selected.SetSquare(isSquare.getSelectedIndex() == 1);
-            selected.setWhite(isWhite.getSelectedIndex() == 0);
-            selected.setTextEnabled(textCheck.isSelected());
-            selected.setLetter(textContent.getText());
-            PropertiesFrame.field.repaint();
-            PropertiesFrame.frame.setEnabled(true);
-            PropertiesFrame.edit.dispose();
-          }
+        e -> {
+          selected.SetSquare(isSquare.getSelectedIndex() == 1);
+          selected.setWhite(isWhite.getSelectedIndex() == 0);
+          selected.setTextEnabled(textCheck.isSelected());
+          selected.setLetter(textContent.getText());
+          PropertiesFrame.field.repaint();
+          PropertiesFrame.frame.setEnabled(true);
+          PropertiesFrame.edit.dispose();
         });
   }
 
@@ -109,11 +106,9 @@ public class PropertiesFrame {
     okNo.add(no);
     edit.add(okNo, "South");
     no.addActionListener(
-        new ActionListener() {
-          public void actionPerformed(ActionEvent arg0) {
-            PropertiesFrame.frame.setEnabled(true);
-            PropertiesFrame.edit.dispose();
-          }
+        arg0 -> {
+          PropertiesFrame.frame.setEnabled(true);
+          PropertiesFrame.edit.dispose();
         });
     return ok;
   }
@@ -135,7 +130,7 @@ public class PropertiesFrame {
     leftContent.add(text);
 
     final String[] colors = {"Black", "White", "Blue", "Red"};
-    final JComboBox<String> fontColor = new JComboBox(colors);
+    final JComboBox<String> fontColor = new JComboBox<>(colors);
     rightContent.add(fontColor);
     String currentFontColor = selected.getFontColor();
     for (int i = 0; i < 4; i++) {
@@ -149,7 +144,7 @@ public class PropertiesFrame {
     rightContent.add(sizeLabel);
 
     final String[] fonts = {"Times New Roman", "Lucida Console", "Arial Black", "Georgia"};
-    final JComboBox<String> font = new JComboBox(fonts);
+    final JComboBox<String> font = new JComboBox<>(fonts);
     String currentFont = selected.getFont();
     for (int i = 0; i < 4; i++) {
       if (currentFont.equals(fonts[i])) {
@@ -164,22 +159,20 @@ public class PropertiesFrame {
     rightContent.add(size);
 
     okay.addActionListener(
-        new ActionListener() {
-          public void actionPerformed(ActionEvent arg0) {
-            Graphics2D g2 = (Graphics2D) PropertiesFrame.field.getGraphics();
-            int inputedSize;
-            try {
-              inputedSize = Integer.parseInt(selected.getText());
-            } catch (NumberFormatException exception) {
-              inputedSize = Integer.parseInt(selected.getSize());
-            }
-            selected.setFontAndSizeAndText(
-                fonts[font.getSelectedIndex()], text.getText(), inputedSize, g2);
-            selected.setFontColor(colors[fontColor.getSelectedIndex()]);
-            PropertiesFrame.field.repaint();
-            PropertiesFrame.frame.setEnabled(true);
-            PropertiesFrame.edit.dispose();
+        arg0 -> {
+          Graphics2D g2 = (Graphics2D) PropertiesFrame.field.getGraphics();
+          int inputedSize;
+          try {
+            inputedSize = Integer.parseInt(selected.getText());
+          } catch (NumberFormatException exception) {
+            inputedSize = Integer.parseInt(selected.getSize());
           }
+          selected.setFontAndSizeAndText(
+              fonts[font.getSelectedIndex()], text.getText(), inputedSize, g2);
+          selected.setFontColor(colors[fontColor.getSelectedIndex()]);
+          PropertiesFrame.field.repaint();
+          PropertiesFrame.frame.setEnabled(true);
+          PropertiesFrame.edit.dispose();
         });
     rightContent.setBorder(BorderFactory.createEmptyBorder(5, 5, 10, 10));
     leftContent.setBorder(BorderFactory.createEmptyBorder(5, 10, 10, 5));
@@ -194,7 +187,7 @@ public class PropertiesFrame {
     JLabel label = new JLabel(" Zone Color     ");
     JPanel content = new JPanel();
     final String[] colors = {"Blue", "Yellow", "Turquoise", "Gold", "Red", "Black"};
-    final JComboBox<String> color = new JComboBox(colors);
+    final JComboBox<String> color = new JComboBox<>(colors);
     String currentColor = selected.getColorString();
     for (int i = 0; i < 6; i++) {
       if (currentColor.equals(colors[i])) {
@@ -208,13 +201,11 @@ public class PropertiesFrame {
     edit.setSize(240, 120);
     edit.setVisible(true);
     okay.addActionListener(
-        new ActionListener() {
-          public void actionPerformed(ActionEvent e) {
-            selected.setColorFromString(colors[color.getSelectedIndex()]);
-            PropertiesFrame.field.repaint();
-            PropertiesFrame.frame.setEnabled(true);
-            PropertiesFrame.edit.dispose();
-          }
+        e -> {
+          selected.setColorFromString(colors[color.getSelectedIndex()]);
+          PropertiesFrame.field.repaint();
+          PropertiesFrame.frame.setEnabled(true);
+          PropertiesFrame.edit.dispose();
         });
   }
 
@@ -263,7 +254,7 @@ public class PropertiesFrame {
     textBoxProperties.add(fontsize);
     textBoxProperties.add(new JLabel("       "));
     final String[] fonts = {"Times New Roman", "Lucida Console", "Arial Black", "Georgia"};
-    final JComboBox<String> font = new JComboBox(fonts);
+    final JComboBox<String> font = new JComboBox<>(fonts);
     String currentFont = Main.defaultFontStyle;
     for (int i = 0; i < 4; i++) {
       if (currentFont.equals(fonts[i])) {
@@ -273,7 +264,7 @@ public class PropertiesFrame {
     textBoxProperties.add(font);
     textBoxProperties.add(new JLabel("       "));
     final String[] colors = {"Black", "White", "Blue", "Red"};
-    final JComboBox<String> fontColor = new JComboBox(colors);
+    final JComboBox<String> fontColor = new JComboBox<>(colors);
     textBoxProperties.add(fontColor);
     String currentFontColor = getColorString(Main.defaultTextColor);
     for (int i = 0; i < 4; i++) {
@@ -286,14 +277,14 @@ public class PropertiesFrame {
     playerContent.add(playerProperties);
     playerProperties.add(new JLabel(" Shape"));
     String[] shapes = {"Circle", "Square"};
-    final JComboBox<String> isSquare = new JComboBox(shapes);
+    final JComboBox<String> isSquare = new JComboBox<>(shapes);
     if (Main.defaultIsCircle) {
       isSquare.setSelectedIndex(0);
     } else {
       isSquare.setSelectedIndex(1);
     }
     String[] shapeColors = {"White", "Black"};
-    final JComboBox<String> isWhite = new JComboBox(shapeColors);
+    final JComboBox<String> isWhite = new JComboBox<>(shapeColors);
     if (Main.defaultIsWhite) {
       isWhite.setSelectedIndex(0);
     } else {
@@ -308,7 +299,7 @@ public class PropertiesFrame {
     zoneContent.add(zoneProperties);
     zoneProperties.add(new JLabel(" Color"));
     final String[] zoneColors = {"Blue", "Yellow", "Turquoise", "Gold", "Red", "Black"};
-    final JComboBox<String> zoneColor = new JComboBox(zoneColors);
+    final JComboBox<String> zoneColor = new JComboBox<>(zoneColors);
     String currentColor = getColorString(Main.defaultZoneColor);
     for (int i = 0; i < 6; i++) {
       if (currentColor.equals(zoneColors[i])) {
@@ -330,89 +321,84 @@ public class PropertiesFrame {
     edit.pack();
     edit.setVisible(true);
     okay.addActionListener(
-        new ActionListener() {
-          public void actionPerformed(ActionEvent e) {
-            Main.fileName = title.getText();
-            if (twofive.isSelected()) {
-              Main.numYards = 25;
-            } else {
-              Main.numYards = 35;
-            }
-            Main.defaultFontStyle = fonts[font.getSelectedIndex()];
-            try {
-              Main.defaultFontSize = Integer.parseInt(fontsize.getText());
-            } catch (NumberFormatException localNumberFormatException) {
-            }
-            Main.defaultTextColor =
-                PropertiesFrame.getColorFromString(colors[fontColor.getSelectedIndex()]);
-            Main.defaultIsCircle = isSquare.getSelectedIndex() == 0;
-            Main.defaultIsWhite = isWhite.getSelectedIndex() == 0;
-            Main.defaultZoneColor =
-                PropertiesFrame.getColorFromString(zoneColors[zoneColor.getSelectedIndex()]);
-            Main.setFrameTitle();
-            LoadSaveHandler.saveProperties();
-            PropertiesFrame.frame.setEnabled(true);
-            PropertiesFrame.edit.dispose();
+        e -> {
+          Main.fileName = title.getText();
+          if (twofive.isSelected()) {
+            Main.numYards = 25;
+          } else {
+            Main.numYards = 35;
           }
+          Main.defaultFontStyle = fonts[font.getSelectedIndex()];
+          Main.defaultTextColor =
+              PropertiesFrame.getColorFromString(colors[fontColor.getSelectedIndex()]);
+          Main.defaultIsCircle = isSquare.getSelectedIndex() == 0;
+          Main.defaultIsWhite = isWhite.getSelectedIndex() == 0;
+          Main.defaultZoneColor =
+              PropertiesFrame.getColorFromString(zoneColors[zoneColor.getSelectedIndex()]);
+          Main.setFrameTitle();
+          ProgramProperties properties = ProgramProperties.load();
+          properties.setFontStyle(Main.defaultFontStyle);
+          Color color = PropertiesFrame.getColorFromString(colors[fontColor.getSelectedIndex()]);
+          if (color != null) {
+            properties.setTextColor(color);
+          }
+          try {
+            properties.setFontSize(Integer.parseInt(fontsize.getText()));
+          } catch (NumberFormatException ignored) {
+          }
+          properties.setPlayerShape(Main.defaultIsCircle ? PlayerShape.CIRCLE : PlayerShape.SQUARE);
+          properties.setPlayerColor(Main.defaultIsWhite ? Color.WHITE : Color.BLACK);
+          color = PropertiesFrame.getColorFromString(zoneColors[zoneColor.getSelectedIndex()]);
+          if (color != null) {
+            properties.setZoneColor(color);
+          }
+          try {
+            properties.save();
+          } catch (IOException ignored) {
+          }
+          PropertiesFrame.frame.setEnabled(true);
+          PropertiesFrame.edit.dispose();
         });
   }
 
   private static Color getColorFromString(String line) {
-    if (line.equals("Black")) {
-      return Color.BLACK;
+    switch (line) {
+      case "Black":
+        return Color.BLACK;
+      case "Blue":
+        return Color.BLUE;
+      case "White":
+        return Color.WHITE;
+      case "Yellow":
+        return Color.YELLOW;
+      case "Turquoise":
+        return Color.CYAN;
+      case "Gold":
+        return Color.ORANGE;
+      case "Red":
+        return Color.RED;
+      default:
+        return null;
     }
-    if (line.equals("Blue")) {
-      return Color.BLUE;
-    }
-    if (line.equals("White")) {
-      return Color.WHITE;
-    }
-    if (line.equals("Yellow")) {
-      return Color.YELLOW;
-    }
-    if (line.equals("Turquoise")) {
-      return Color.CYAN;
-    }
-    if (line.equals("Gold")) {
-      return Color.ORANGE;
-    }
-    if (line.equals("Red")) {
-      return Color.RED;
-    }
-    return null;
   }
 
   private static String getColorString(Color color) {
     if (color.equals(Color.BLACK)) {
       return "Black";
-    }
-    if (color.equals(Color.BLUE)) {
+    } else if (color.equals(Color.BLUE)) {
       return "Blue";
-    }
-    if (color.equals(Color.WHITE)) {
+    } else if (color.equals(Color.WHITE)) {
       return "White";
-    }
-    if (color.equals(Color.YELLOW)) {
+    } else if (color.equals(Color.YELLOW)) {
       return "Yellow";
-    }
-    if (color.equals(Color.CYAN)) {
+    } else if (color.equals(Color.CYAN)) {
       return "Turquoise";
-    }
-    if (color.equals(Color.ORANGE)) {
+    } else if (color.equals(Color.ORANGE)) {
       return "Gold";
-    }
-    if (color.equals(Color.RED)) {
+    } else if (color.equals(Color.RED)) {
       return "Red";
+    } else {
+      return null;
     }
-    return null;
   }
 }
-
-/*
- * Location: D:\Software\Mine\CCHS-Playmaker-master\CCHS-Playmaker-master\2.0\
- * FootballPlayMaker.jar
- *
- * Qualified Name: GUI.PropertiesFrame
- *
- * JD-Core Version: 0.7.0.1
- */

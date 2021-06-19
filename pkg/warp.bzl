@@ -7,10 +7,12 @@ def _impl(ctx):
     warp_args.add("--arch", "macos")
     warp_args.add("--output", mac_output)
     warp_args.add("--jar", ctx.file.deploy_jar)
+    # TODO: Support bundling jre in optimized compilations
+    warp_args.add_all(ctx.files.aux_files)
 
     # Action to call the script.
     ctx.actions.run(
-        inputs = [ctx.file.deploy_jar],
+        inputs = [ctx.file.deploy_jar] + ctx.files.aux_files,
         outputs = [mac_output],
         arguments = [warp_args],
         progress_message = "Generating %s" % mac_output.short_path,
@@ -22,6 +24,7 @@ self_contained_jar = rule(
     implementation = _impl,
     attrs = {
         "deploy_jar": attr.label(mandatory = True, allow_single_file = True),
+        "aux_files": attr.label_list(allow_files = True),
         "_warp_tool": attr.label(
             executable = True,
             cfg = "exec",

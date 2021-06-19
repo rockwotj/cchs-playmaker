@@ -86,7 +86,7 @@ public class TextBox extends FieldPieces {
     this.text = text;
     this.size = size;
     this.fontStyle = font;
-    this.font = new Font(this.fontStyle, 1, this.size);
+    this.font = new Font(this.fontStyle, Font.BOLD, this.size);
     this.textBox = new TextLayout(this.text, this.font, g2.getFontRenderContext());
   }
 
@@ -104,32 +104,36 @@ public class TextBox extends FieldPieces {
 
   public void setFontStyle(String fontStyle, Graphics2D g2) {
     this.fontStyle = fontStyle;
-    this.font = new Font(this.fontStyle, 1, this.size);
+    this.font = new Font(this.fontStyle, Font.BOLD, this.size);
     this.textBox = new TextLayout(this.text, this.font, g2.getFontRenderContext());
   }
 
   public String getFontColor() {
     if (this.textColor.equals(Color.BLACK)) {
       return "Black";
-    }
-    if (this.textColor.equals(Color.WHITE)) {
+    } else if (this.textColor.equals(Color.WHITE)) {
       return "White";
-    }
-    if (this.textColor.equals(Color.BLUE)) {
+    } else if (this.textColor.equals(Color.BLUE)) {
       return "Blue";
+    } else {
+      return "Red";
     }
-    return "Red";
   }
 
   public void setFontColor(String color) {
-    if (color.equals("Black")) {
-      this.textColor = Color.BLACK;
-    } else if (color.equals("White")) {
-      this.textColor = Color.WHITE;
-    } else if (color.equals("Blue")) {
-      this.textColor = Color.BLUE;
-    } else {
-      this.textColor = Color.RED;
+    switch (color) {
+      case "Black":
+        this.textColor = Color.BLACK;
+        break;
+      case "White":
+        this.textColor = Color.WHITE;
+        break;
+      case "Blue":
+        this.textColor = Color.BLUE;
+        break;
+      default:
+        this.textColor = Color.RED;
+        break;
     }
   }
 
@@ -157,12 +161,3 @@ public class TextBox extends FieldPieces {
     this.y = ((int) (this.yPercent * height));
   }
 }
-
-/*
- * Location: D:\Software\Mine\CCHS-Playmaker-master\CCHS-Playmaker-master\2.0\
- * FootballPlayMaker.jar
- *
- * Qualified Name: GUI.TextBox
- *
- * JD-Core Version: 0.7.0.1
- */

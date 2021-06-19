@@ -7,9 +7,9 @@ import java.awt.event.MouseMotionListener;
 import javax.swing.SwingUtilities;
 
 public class SelectionMotionHandler implements MouseMotionListener {
-  private ToolBar toolBar;
-  private DrawingField field;
-  private ToolClickHandler clicker;
+  private final ToolBar toolBar;
+  private final DrawingField field;
+  private final ToolClickHandler clicker;
 
   public SelectionMotionHandler(
       DrawingField field, ToolBar optionToolBar, ToolClickHandler clickHandler) {
@@ -49,6 +49,7 @@ public class SelectionMotionHandler implements MouseMotionListener {
   }
 
   public void mouseMoved(MouseEvent e) {
+
     if ((!this.toolBar.add.isEnabled())
         && (this.toolBar.lines.getSelectedIndex() == 3)
         && (this.field.selected != null)

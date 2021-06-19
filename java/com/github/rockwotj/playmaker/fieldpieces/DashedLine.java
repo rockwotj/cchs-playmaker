@@ -35,12 +35,3 @@ public class DashedLine extends Line {
     return "DashedLine|" + line.x1 + "|" + line.y1 + "|" + line.x2 + "|" + line.y2;
   }
 }
-
-/*
- * Location: D:\Software\Mine\CCHS-Playmaker-master\CCHS-Playmaker-master\2.0\
- * FootballPlayMaker.jar
- *
- * Qualified Name: GUI.DashedLine
- *
- * JD-Core Version: 0.7.0.1
- */

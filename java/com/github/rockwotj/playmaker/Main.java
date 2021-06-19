@@ -3,14 +3,12 @@ package com.github.rockwotj.playmaker;
 import com.github.rockwotj.playmaker.fieldpieces.DrawingField;
 import java.awt.Color;
 import java.awt.Image;
+import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
-import java.awt.event.ComponentListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.JFrame;
@@ -33,15 +31,18 @@ public class Main {
   public static void main(String[] args) {
     frameIcon = null;
     try {
-      frameIcon = ImageIO.read(new File("images\\CCLogo.jpg"));
+      frameIcon = ImageIO.read(Main.class.getResourceAsStream("/images/logo.jpg"));
     } catch (IOException localIOException) {
       System.out.println("Load Logo Fail");
     }
-    try {
-      LoadSaveHandler.loadProperties();
-    } catch (FileNotFoundException e1) {
-      System.out.println("Load Props fail");
-    }
+    ProgramProperties properties = ProgramProperties.load();
+    // TODO: Stop using global state.
+    Main.defaultFontStyle = properties.fontStyle();
+    Main.defaultFontSize = properties.setFontSize();
+    Main.defaultTextColor = properties.textColor();
+    Main.defaultIsCircle = properties.playerShape() != PlayerShape.SQUARE;
+    Main.defaultIsWhite = !properties.playerColor().equals(Color.BLACK);
+    Main.defaultZoneColor = properties.zoneColor();
     frame = new JFrame();
     frame.setIconImage(frameIcon);
     field = new DrawingField(numYards);
@@ -53,18 +54,12 @@ public class Main {
     ToolClickHandler clickHandler = new ToolClickHandler(field, optionToolBar);
     MouseMotionListener motionListener =
         new SelectionMotionHandler(field, optionToolBar, clickHandler);
-    FieldKeyHandler keyHandler = new FieldKeyHandler(field, optionToolBar);
+    FieldKeyHandler keyHandler = new FieldKeyHandler(field);
     field.addComponentListener(
-        new ComponentListener() {
-          public void componentHidden(ComponentEvent arg0) {}
-
-          public void componentMoved(ComponentEvent arg0) {}
-
-          public void componentResized(ComponentEvent arg0) {
+        new ComponentAdapter() {
+          public void componentResized(ComponentEvent evt) {
             Main.field.resizePieces();
           }
-
-          public void componentShown(ComponentEvent arg0) {}
         });
     field.addMouseListener(clickHandler);
     field.addMouseMotionListener(motionListener);
@@ -103,12 +98,3 @@ public class Main {
     optionToolBar.setName();
   }
 }
-
-/*
- * Location: D:\Software\Mine\CCHS-Playmaker-master\CCHS-Playmaker-master\2.0\
- * FootballPlayMaker.jar
- *
- * Qualified Name: GUI.Main
- *
- * JD-Core Version: 0.7.0.1
- */

@@ -15,8 +15,8 @@ import java.awt.event.MouseListener;
 import javax.swing.SwingUtilities;
 
 public class ToolClickHandler implements MouseListener {
-  private ToolBar toolBar;
-  private DrawingField field;
+  private final ToolBar toolBar;
+  private final DrawingField field;
   int timeToAddCurvedControlPoint;
 
   public ToolClickHandler(DrawingField field, ToolBar optionToolBar) {
@@ -25,11 +25,11 @@ public class ToolClickHandler implements MouseListener {
     this.timeToAddCurvedControlPoint = 0;
   }
 
-  public void mouseClicked(MouseEvent arg0) {
+  public void mouseClicked(MouseEvent evt) {
     if ((!this.toolBar.selection.isEnabled())
-        && (arg0.getClickCount() == 2)
-        && (SwingUtilities.isLeftMouseButton(arg0))) {
-      this.field.findPieceAt(arg0.getX(), arg0.getY());
+        && (evt.getClickCount() == 2)
+        && (SwingUtilities.isLeftMouseButton(evt))) {
+      this.field.findPieceAt(evt.getX(), evt.getY());
       if (this.field.selected != null) {
         if ((this.field.selected instanceof Player)) {
           PropertiesFrame.playerPropertyFrame((Player) this.field.selected);
@@ -124,17 +124,4 @@ public class ToolClickHandler implements MouseListener {
       }
     }
   }
-
-  public void timeToAddCurvedControlPointPlusPlus() {
-    this.timeToAddCurvedControlPoint += 1;
-  }
 }
-
-/*
- * Location: D:\Software\Mine\CCHS-Playmaker-master\CCHS-Playmaker-master\2.0\
- * FootballPlayMaker.jar
- *
- * Qualified Name: GUI.ToolClickHandler
- *
- * JD-Core Version: 0.7.0.1
- */

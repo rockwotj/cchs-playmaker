@@ -148,12 +148,3 @@ public class CurvedLine extends Line {
     line.setCurve(this.x1, this.y1, this.xCrtl, this.yCrtl, this.x2, this.y2);
   }
 }
-
-/*
- * Location: D:\Software\Mine\CCHS-Playmaker-master\CCHS-Playmaker-master\2.0\
- * FootballPlayMaker.jar
- *
- * Qualified Name: GUI.CurvedLine
- *
- * JD-Core Version: 0.7.0.1
- */
