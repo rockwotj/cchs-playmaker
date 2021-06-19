@@ -1,8 +1,8 @@
 load("@bazel_skylib//rules:native_binary.bzl", "native_binary")
 
 java_binary(
-  name = "WarpCreator",
-  main_class = "com.github.rockwotj.tooling.WarpCreator",
+  name = "WarpPacker",
+  main_class = "com.github.rockwotj.tooling.WarpPacker",
   srcs = glob(["*.java"]),
   data = [":warp"],
   visibility = ["//visibility:public"],

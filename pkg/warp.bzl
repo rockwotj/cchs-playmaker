@@ -35,7 +35,7 @@ warp_pkg = rule(
             executable = True,
             cfg = "exec",
             allow_files = True,
-            default = Label("//java/com/github/rockwotj/tooling:WarpCreator"),
+            default = Label("//java/com/github/rockwotj/tooling:WarpPacker"),
         ),
     },
 )

@@ -8,14 +8,16 @@ import com.google.devtools.build.runfiles.Runfiles;
 
 import java.io.File;
 import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import static com.google.common.base.Verify.verify;
-import static java.util.stream.Collectors.toList;
 
-public class WarpCreator {
-    @SuppressWarnings("FieldMayBeFinal")
+public class WarpPacker {
+    @SuppressWarnings({"FieldMayBeFinal", "MismatchedQueryAndUpdateOfCollection"})
     static class Args {
         @Parameter(names = "--runner", converter = FileConverter.class, required = true)
         private File runner = null;
@@ -31,9 +33,9 @@ public class WarpCreator {
 
     }
 
-    private Args args;
+    private final Args args;
 
-    private WarpCreator(Args args) {
+    private WarpPacker(Args args) {
         this.args = args;
     }
 
@@ -45,7 +47,7 @@ public class WarpCreator {
                 .parse(argv);
         int exitCode;
         try {
-            exitCode = new WarpCreator(args).run();
+            exitCode = new WarpPacker(args).run();
         } catch (Exception e) {
             e.printStackTrace();
             exitCode = 1;
@@ -58,15 +60,24 @@ public class WarpCreator {
     public int run() throws Exception {
         File inputDir = Files.createTempDirectory("warp-inputs").toFile();
         inputDir.deleteOnExit();
-        System.out.println(args.inputs.stream().map(File::exists).collect(toList()));
+
+        for (File input : args.inputs) {
+            Path src = input.toPath();
+            Path target = inputDir.toPath().resolve(src.getFileName());
+            Files.copy(src, target, StandardCopyOption.COPY_ATTRIBUTES);
+        }
+
+        String runnerFile = "runner-" + UUID.randomUUID().toString();
+        Files.copy(args.runner.toPath(), inputDir.toPath().resolve(runnerFile), StandardCopyOption.COPY_ATTRIBUTES);
+
         ImmutableList<String> command = ImmutableList.of(
                 warpBinary().getAbsolutePath(),
                 "--arch",
                 args.arch.toString(),
                 "--input_dir",
-                null,
+                inputDir.getAbsolutePath(),
                 "--exec",
-                args.runner.getAbsolutePath(),
+                runnerFile,
                 "--output",
                 args.output.getAbsolutePath()
         );
