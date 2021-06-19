@@ -16,7 +16,7 @@ import java.util.UUID;
 
 import static com.google.common.base.Verify.verify;
 
-public class WarpPacker {
+public class WarpJrePacker {
     @SuppressWarnings({"FieldMayBeFinal", "MismatchedQueryAndUpdateOfCollection"})
     static class Args {
         @Parameter(names = "--runner", converter = FileConverter.class, required = true)
@@ -35,7 +35,7 @@ public class WarpPacker {
 
     private final Args args;
 
-    private WarpPacker(Args args) {
+    private WarpJrePacker(Args args) {
         this.args = args;
     }
 
@@ -47,7 +47,7 @@ public class WarpPacker {
                 .parse(argv);
         int exitCode;
         try {
-            exitCode = new WarpPacker(args).run();
+            exitCode = new WarpJrePacker(args).run();
         } catch (Exception e) {
             e.printStackTrace();
             exitCode = 1;
