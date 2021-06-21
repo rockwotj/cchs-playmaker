@@ -13,11 +13,10 @@ import javax.swing.JOptionPane;
 public class DrawingField extends JComponent {
   private int width;
   private int height;
-  private ArrayList<FieldPieces> pieces;
+  private ArrayList<FieldPieces> pieces = new ArrayList<>();
   public FieldPieces selected;
 
   public DrawingField(int numYardsToBeShown) {
-    this.pieces = new ArrayList<FieldPieces>();
     this.selected = null;
     setFocusable(true);
   }
@@ -84,8 +83,8 @@ public class DrawingField extends JComponent {
             this.height / Main.numYards * i + this.height / (3 * Main.numYards));
       }
     }
-    for (int i = 0; i < this.pieces.size(); i++) {
-      this.pieces.get(i).drawOn(g2);
+    for (FieldPieces piece : this.pieces) {
+      piece.drawOn(g2);
     }
   }
 
@@ -213,8 +212,8 @@ public class DrawingField extends JComponent {
 
   public void unhighlightAll() {
     this.selected = null;
-    for (int i = 0; i < this.pieces.size(); i++) {
-      this.pieces.get(i).isHighlighted(false);
+    for (FieldPieces piece : this.pieces) {
+      piece.isHighlighted(false);
     }
     repaint();
   }
@@ -266,7 +265,7 @@ public class DrawingField extends JComponent {
   }
 
   public void load() {
-    ArrayList<FieldPieces> temp = null;
+    ArrayList<FieldPieces> temp;
     try {
       temp = LoadSaveHandler.load((Graphics2D) getGraphics(), this);
     } catch (FileNotFoundException e) {
