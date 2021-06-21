@@ -4,54 +4,36 @@ workspace(
 
 load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive", "http_file")
 
-PACKAGED_JRE_VERSION = "jdk-11.0.11+9"
+JDK_VERSION = "jdk-16.0.1+9"
 
-PACKAGED_JRE_VERSION_URL_SEGMENT = PACKAGED_JRE_VERSION.replace("+", "%2B")
+JDK_VERSION_URL_SEGMENT = JDK_VERSION.replace("+", "%2B")
 
-PACKAGED_JRE_VERSION_FILE_SEGMENT = PACKAGED_JRE_VERSION.replace("+", "_").replace("jdk-", "")
+JDK_VERSION_FILE_SEGMENT = JDK_VERSION.replace("+", "_").replace("jdk-", "")
 
-PACKAGED_JRE_BASE_URL = "https://github.com/AdoptOpenJDK/openjdk11-binaries/releases/download"
+JDK_BASE_URL = "https://github.com/AdoptOpenJDK/openjdk16-binaries/releases/download"
 
 http_archive(
-    name = "windows_jre",
-    build_file = "//third_party:jre.BUILD",
-    strip_prefix = "{version}-jre".format(version = PACKAGED_JRE_VERSION),
-    sha256 = "a7377fb0807fa619de49eec02ad7e2110c257649341f5ccffbaafa43cc8cbcc8",
-    urls = ["{base_url}/{dir}/OpenJDK11U-jre_x64_windows_hotspot_{file}.zip".format(
-        base_url = PACKAGED_JRE_BASE_URL,
-        dir = PACKAGED_JRE_VERSION_URL_SEGMENT,
-        file = PACKAGED_JRE_VERSION_FILE_SEGMENT,
+    name = "windows_jdk",
+    build_file = "//third_party:jdk.BUILD",
+    strip_prefix = JDK_VERSION,
+    sha256 = "0a91e179c4d34b5d905fd2945a21927a6acb798b4e8f2d528ece32c025bbcaff",
+    urls = ["{base_url}/{dir}/OpenJDK16U-jdk_x64_windows_hotspot_{file}.zip".format(
+        base_url = JDK_BASE_URL,
+        dir = JDK_VERSION_URL_SEGMENT,
+        file = JDK_VERSION_FILE_SEGMENT,
     )],
 )
 
 http_archive(
-    name = "mac_jre",
-    build_file = "//third_party:jre.BUILD",
-    sha256 = "ccb38c0b73bd0ba7006d00234a51eee9504ec8108c835e1f1763191806374707",
-    strip_prefix = "{version}-jre".format(version = PACKAGED_JRE_VERSION),
-    urls = ["{base_url}/{dir}/OpenJDK11U-jre_x64_mac_hotspot_{file}.tar.gz".format(
-        base_url = PACKAGED_JRE_BASE_URL,
-        dir = PACKAGED_JRE_VERSION_URL_SEGMENT,
-        file = PACKAGED_JRE_VERSION_FILE_SEGMENT,
+    name = "mac_jdk",
+    build_file = "//third_party:jdk.BUILD",
+    sha256 = "3be78eb2b0bf0a6edef2a8f543958d6e249a70c71e4d7347f9edb831135a16b8",
+    strip_prefix = JDK_VERSION,
+    urls = ["{base_url}/{dir}/OpenJDK16U-jdk_x64_mac_hotspot_{file}.tar.gz".format(
+        base_url = JDK_BASE_URL,
+        dir = JDK_VERSION_URL_SEGMENT,
+        file = JDK_VERSION_FILE_SEGMENT,
     )],
-)
-
-WARP_PACKAGER_VERSION = "0.3.0"
-
-WARP_PACKAGER_BASE_URL = "https://github.com/dgiagio/warp/releases/download"
-
-http_file(
-  name = "mac_warp",
-  urls = ["{base_url}/v{version}/macos-x64.warp-packer".format(version = WARP_PACKAGER_VERSION, base_url = WARP_PACKAGER_BASE_URL)],
-  sha256 = "01d00038dbbe4e5a6e2ca19c1235f051617ac0e6e582d2407a06cec33125044b",
-  executable = True,
-)
-
-http_file(
-  name = "windows_warp",
-  urls = ["{base_url}/v{version}/windows-x64.warp-packer.exe".format(version = WARP_PACKAGER_VERSION, base_url = WARP_PACKAGER_BASE_URL)],
-  sha256 = "4f9a0f223f0e9f689fc718fdf86a147a357921ffa69c236deadc3274091070c1",
-  executable = True,
 )
 
 BAZEL_SKYLIB_VERSION = "1.0.3"
