@@ -88,6 +88,7 @@ maven_install(
     artifacts = [
         "com.beust:jcommander:1.81",
         "com.google.guava:guava:30.1.1-jre",
+        "com.formdev:flatlaf:1.2",
     ],
     fetch_sources = True,
     version_conflict_policy = "pinned",

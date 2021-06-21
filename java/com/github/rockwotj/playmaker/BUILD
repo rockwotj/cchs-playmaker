@@ -5,6 +5,6 @@ java_binary(
   resources = ["//images"],
   visibility = ["//visibility:public"],
   deps = [
-      "@maven//:com_google_guava_guava",
+      "@maven//:com_formdev_flatlaf",
   ],
 )

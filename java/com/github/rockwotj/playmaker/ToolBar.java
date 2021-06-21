@@ -1,13 +1,13 @@
 package com.github.rockwotj.playmaker;
 
 import com.github.rockwotj.playmaker.fieldpieces.DrawingField;
-import com.google.common.collect.ImmutableList;
+
 import java.awt.BorderLayout;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
-import java.util.List;
+import java.util.Arrays;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -23,7 +23,7 @@ public class ToolBar extends JPanel {
   public final JButton blockhead;
   public final JButton selection;
   public final JButton zone;
-  public final List<JButton> allButtons;
+  public final Iterable<JButton> allButtons;
 
   public final JTextField text;
   public final JTextArea tooltip;
@@ -80,7 +80,7 @@ public class ToolBar extends JPanel {
     add(buttons, "North");
     add(textPanel);
 
-    allButtons = ImmutableList.of(selection, player, arrowhead, misc, blockhead, zone, add);
+    allButtons = Arrays.asList(selection, player, arrowhead, misc, blockhead, zone, add);
 
     setButtonAction(
         selection,

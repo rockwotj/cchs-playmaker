@@ -1,5 +1,6 @@
 package com.github.rockwotj.playmaker;
 
+import com.formdev.flatlaf.FlatLightLaf;
 import com.github.rockwotj.playmaker.fieldpieces.DrawingField;
 import java.awt.Color;
 import java.awt.Image;
@@ -29,6 +30,7 @@ public class Main {
   private static ToolBar optionToolBar;
 
   public static void main(String[] args) {
+    FlatLightLaf.setup();
     frameIcon = null;
     try {
       frameIcon = ImageIO.read(Main.class.getResourceAsStream("/images/logo.jpg"));
