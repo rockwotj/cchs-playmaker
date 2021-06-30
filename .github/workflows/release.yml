@@ -22,7 +22,7 @@ jobs:
             --main-jar playmaker.jar --main-class com.github.rockwotj.playmaker.Main \
             --mac-package-name Playmaker --name Playmaker --app-version 2.0 --copyright 'Tyler Rockwood 2021' \
             --description 'A football playmaking drawing program' --vendor 'Tyler Rockwood' \
-            --dest build-out --icon logo.jpg
+            --dest build-out --icon appdata/logo.jpg
           ls build-out
       - name: Publish Release
         uses: softprops/action-gh-release@v1
