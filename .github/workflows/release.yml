@@ -22,7 +22,37 @@ jobs:
             --main-jar playmaker.jar --main-class com.github.rockwotj.playmaker.Main \
             --mac-package-name Playmaker --name Playmaker --app-version 2.0 --copyright 'Tyler Rockwood 2021' \
             --description 'A football playmaking drawing program' --vendor 'Tyler Rockwood' \
-            --dest build-out --icon appdata/logo.jpg
+            --dest build-out
+      - name: Publish Release
+        uses: softprops/action-gh-release@v1
+        if: startsWith(github.ref, 'refs/tags/')
+        with:
+          files: build-out/Playmaker-2.0.dmg
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  Release-Windows:
+    runs-on: windows-latest
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v2
+      - name: Build Release
+        shell: pwsh
+        run: |
+          bazel build -c opt //java/com/github/rockwotj/playmaker:playmaker_deploy.jar
+          mkdir appdata
+          cp bazel-bin/java/com/github/rockwotj/playmaker/playmaker_deploy.jar appdata/playmaker.jar
+          cp images/logo.jpg appdata/logo.jpg
+
+          bazel build @windows_jdk//:jdk
+          mkdir jdkdata
+          tar.exe -xf bazel-bin/external/windows_jdk/jdk.tgz -C jdkdata
+          $env:JAVA_HOME = "jdkdata/"
+          ls jdkdata
+          jdkdata/bin/jpackage --input appdata --add-modules java.base,java.desktop \
+            --main-jar playmaker.jar --main-class com.github.rockwotj.playmaker.Main \
+            --name Playmaker --app-version 2.0 --copyright 'Tyler Rockwood 2021' \
+            --description 'A football playmaking drawing program' --vendor 'Tyler Rockwood' \
+            --dest build-out
           ls build-out
       - name: Publish Release
         uses: softprops/action-gh-release@v1
@@ -31,33 +61,3 @@ jobs:
           files: ./build-out
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-#  Release-Windows:
-#    runs-on: windows-latest
-#    steps:
-#      - name: Check out repository code
-#        uses: actions/checkout@v2
-#      - name: Build Release
-#        run: |
-#          bazel build -c opt //java/com/github/rockwotj/playmaker:playmaker_deploy.jar
-#          mkdir appdata
-#          cp bazel-bin/java/com/github/rockwotj/playmaker/playmaker_deploy.jar appdata/playmaker.jar
-#          cp images/logo.jpg appdata/logo.jpg
-#
-#          bazel build @windows_jdk//:jdk
-#          mkdir jdkdata
-#          tar.exe -xf bazel-bin/external/windows_jdk/jdk.tgz -C jdkdata
-#          export JAVA_HOME="jdkdata/"
-#          ls $JAVA_HOME
-#          $JAVA_HOME/bin/jpackage --input appdata --add-modules java.base,java.desktop \
-#            --main-jar playmaker.jar --main-class com.github.rockwotj.playmaker.Main \
-#            --mac-package-name Playmaker --name Playmaker --app-version 2.0 --copyright 'Tyler Rockwood 2021' \
-#            --description 'A football playmaking drawing program' --vendor 'Tyler Rockwood' \
-#            --dest build-out --icon logo.jpg
-#          ls build-out
-#      - name: Publish Release
-#        uses: softprops/action-gh-release@v1
-#        if: startsWith(github.ref, 'refs/tags/')
-#        with:
-#          files: ./build-out
-#        env:
-#          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
