@@ -8,9 +8,9 @@ jobs:
         uses: actions/checkout@v2
       - name: Build a release
         run: |
-          ls
           bazel build -c opt @mac_jdk//...
           bazel build -c opt //java/com/github/rockwotj/playmaker:playmaker_deploy.jar
+          ls
           mkdir -p mac_tmp_build
           cd mac_tmp_build
           cp ../bazel-bin/java/com/github/rockwotj/playmaker/playmaker_deploy.jar
