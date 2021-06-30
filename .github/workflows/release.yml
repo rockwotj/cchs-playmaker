@@ -12,7 +12,6 @@ jobs:
           bazel build -c opt //java/com/github/rockwotj/playmaker:playmaker_deploy.jar
           ls
           mkdir -p appdata
-          cd appdata
           cp bazel-bin/java/com/github/rockwotj/playmaker/playmaker_deploy.jar appdata/playmaker.jar
           export JAVA_HOME="$PWD/bazel-cchs-playmaker"
           $JAVA_HOME/bin/jpackage --input appdata --add-modules java.base,java.desktop \
