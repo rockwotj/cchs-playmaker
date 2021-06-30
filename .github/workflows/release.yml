@@ -1,3 +1,6 @@
+# Here's some good jpackage reading material:
+# https://www.devdungeon.com/content/use-jpackage-create-native-java-app-installers
+# https://docs.oracle.com/en/java/javase/16/docs/specs/man/jpackage.html
 name: Release
 on: [push]
 jobs:
@@ -17,10 +20,10 @@ jobs:
           mkdir jdkdata
           tar --extract --file=bazel-bin/external/mac_jdk/jdk.tgz --directory=jdkdata
           export JAVA_HOME="$PWD/jdkdata/Contents/Home"
-          ls $JAVA_HOME
           $JAVA_HOME/bin/jpackage --input appdata --add-modules java.base,java.desktop \
             --main-jar playmaker.jar --main-class com.github.rockwotj.playmaker.Main \
             --mac-package-name Playmaker --name Playmaker --app-version 2.0 --copyright 'Tyler Rockwood 2021' \
+            --mac-package-identifier 'com.github.rockwotj.playmaker' \
             --description 'A football playmaking drawing program' --vendor 'Tyler Rockwood' \
             --dest build-out
       - name: Publish Release
@@ -46,13 +49,12 @@ jobs:
           mkdir jdkdata
           tar.exe -xf bazel-bin/external/windows_jdk/jdk.tgz -C jdkdata
           $env:JAVA_HOME = "jdkdata/"
-          ls jdkdata
           jdkdata/bin/jpackage --input appdata --add-modules java.base,java.desktop `
             --main-jar playmaker.jar --main-class com.github.rockwotj.playmaker.Main `
             --name Playmaker --app-version 2.0 --copyright 'Tyler Rockwood 2021' `
             --description 'A football playmaking drawing program' --vendor 'Tyler Rockwood' `
-            --dest build-out
-          ls build-out
+            --dest build-out --type msi --win-menu --win-menu-group Playmaker --win-shortcut `
+            --win-upgrade-uuid 9a011adc-ebea-4bfe-a510-e5b2f85845ea
       - name: Publish Release
         uses: softprops/action-gh-release@v1
         if: startsWith(github.ref, 'refs/tags/')
