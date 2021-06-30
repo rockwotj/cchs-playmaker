@@ -36,7 +36,6 @@ jobs:
       - name: Check out repository code
         uses: actions/checkout@v2
       - name: Build Release
-        shell: pwsh
         run: |
           bazel build -c opt //java/com/github/rockwotj/playmaker:playmaker_deploy.jar
           mkdir appdata
@@ -48,10 +47,10 @@ jobs:
           tar.exe -xf bazel-bin/external/windows_jdk/jdk.tgz -C jdkdata
           $env:JAVA_HOME = "jdkdata/"
           ls jdkdata
-          jdkdata/bin/jpackage --input appdata --add-modules java.base,java.desktop \
-            --main-jar playmaker.jar --main-class com.github.rockwotj.playmaker.Main \
-            --name Playmaker --app-version 2.0 --copyright 'Tyler Rockwood 2021' \
-            --description 'A football playmaking drawing program' --vendor 'Tyler Rockwood' \
+          jdkdata/bin/jpackage --input appdata --add-modules java.base,java.desktop `
+            --main-jar playmaker.jar --main-class com.github.rockwotj.playmaker.Main `
+            --name Playmaker --app-version 2.0 --copyright 'Tyler Rockwood 2021' `
+            --description 'A football playmaking drawing program' --vendor 'Tyler Rockwood' `
             --dest build-out
           ls build-out
       - name: Publish Release
