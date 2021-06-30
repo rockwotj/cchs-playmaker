@@ -1,0 +1,23 @@
+name: Release
+on: [push]
+jobs:
+  Release-MacOS:
+    runs-on: macos-latest
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v2
+      - name: Build a release
+        run: |
+          bazel build -c opt @mac_jdk//...
+          bazel build -c opt //java/com/github/rockwotj/playmaker:playmaker_deploy.jar
+          ls
+          mkdir -p appdata
+          cd appdata
+          cp bazel-bin/java/com/github/rockwotj/playmaker/playmaker_deploy.jar appdata/playmaker.jar
+          export JAVA_HOME="$PWD/bazel-cchs-playmaker"
+          $JAVA_HOME/bin/jpackage --input appdata --add-modules java.base,java.desktop \
+            --main-jar playmaker.jar --main-class com.github.rockwotj.playmaker.Main \
+            --mac-package-name Playmaker --name Playmaker --app-version 2.0 --copyright 'Tyler Rockwood 2021' \
+            --description 'A football playmaking drawing program' --vendor 'Tyler Rockwood' \
+            --dest build-out --icon CCLogo.jpg
+          ls build-out
