@@ -4,6 +4,13 @@ workspace(
 
 load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive", "http_file")
 
+
+http_archive(
+    name = "rules_java",
+    url = "https://github.com/bazelbuild/rules_java/releases/download/4.0.0/rules_java-4.0.0.tar.gz",
+    sha256 = "34b41ec683e67253043ab1a3d1e8b7c61e4e8edefbcad485381328c934d072fe",
+)
+
 JDK_VERSION = "jdk-16.0.1+9"
 
 JDK_VERSION_URL_SEGMENT = JDK_VERSION.replace("+", "%2B")
@@ -63,6 +70,14 @@ http_archive(
 load("@bazel_skylib//:workspace.bzl", "bazel_skylib_workspace")
 
 bazel_skylib_workspace()
+
+load("@rules_java//java:repositories.bzl", "rules_java_dependencies", "remote_jdk15_repos", "rules_java_toolchains")
+
+remote_jdk15_repos()
+
+rules_java_dependencies()
+
+rules_java_toolchains()
 
 load("@rules_jvm_external//:defs.bzl", "maven_install")
 

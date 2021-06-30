@@ -1,0 +1,16 @@
+name: Release
+on: [push]
+jobs:
+  Release-MacOS:
+    runs-on: macos-latest
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v2
+      - name: Build a release
+        run: |
+          ls
+          bazel build -c opt @mac_jdk//...
+          bazel build -c opt //java/com/github/rockwotj/playmaker:playmaker_deploy.jar
+          mkdir -p mac_tmp_build
+          cd mac_tmp_build
+          cp ../bazel-bin/java/com/github/rockwotj/playmaker/playmaker_deploy.jar
