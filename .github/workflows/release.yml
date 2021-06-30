@@ -10,9 +10,9 @@ jobs:
         run: |
           bazel build -c opt @mac_jdk//...
           bazel build -c opt //java/com/github/rockwotj/playmaker:playmaker_deploy.jar
-          ls
           mkdir -p appdata
           cp bazel-bin/java/com/github/rockwotj/playmaker/playmaker_deploy.jar appdata/playmaker.jar
+          cp images/CCLogo.jpg appdata/CCLogo.jpg
           export JAVA_HOME="$PWD/bazel-cchs-playmaker/external/mac_jdk/Contents/Home"
           $JAVA_HOME/bin/jpackage --input appdata --add-modules java.base,java.desktop \
             --main-jar playmaker.jar --main-class com.github.rockwotj.playmaker.Main \
